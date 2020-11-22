@@ -89,11 +89,13 @@ collections: # A list of collections the CMS should be able to edit
         fields:
           - {label: Title, name: title, widget: string}
           - {label: Teams, name: teams, widget: list, fields: [
+              {label: Team city, name: team_city, widget: string},
               {label: Team name, name: team_name, widget: string},
               {label: Image, name: image, widget: image, required: false},
+              {label: "Conference/Division", name: "division", widget: "select", options: [{ label: "North West", value: "northwest" }, { label: "North East", value: "northeast" }, { label: "South West", value: "southwest" }, { label: "South East", value: "southeast" }], required: false},
               {label: Text, name: text, widget: text, required: false}]}
-  - name: "trade" # Used in routes, ie.: /admin/collections/:slug/edit
-    label: "Trade" # Used in the UI, ie.: "New Post"
+  - name: "trades" # Used in routes, ie.: /admin/collections/:slug/edit
+    label: "Trades" # Used in the UI, ie.: "New Post"
     folder: "site/content/trade" # The path to the folder where the documents are stored
     create: true # Allow users to create new documents in this collection
     fields: # The fields each document in this collection have
@@ -106,5 +108,14 @@ collections: # A list of collections the CMS should be able to edit
         widget: "relation"
         collection: "general"
         file: "team_infos"
-        search_fields: ["teams.*.team_name"]
+        search_fields: ["teams.*.team_city", "teams.*.team_name"]
         value_field: "teams.*.team_name"
+        display_fields: ["teams.*.team_city", "teams.*.team_name"]
+      - label: "Team B"
+        name: "team_b"
+        widget: "relation"
+        collection: "general"
+        file: "team_infos"
+        search_fields: ["teams.*.team_city", "teams.*.team_name"]
+        value_field: "teams.*.team_name"
+        display_fields: ["teams.*.team_city", "teams.*.team_name"]
