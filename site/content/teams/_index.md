@@ -10,4 +10,5 @@ teams:
   - team_name: Detroit Flangers
     image: img/favicon-16x16.png
     text: "-"
+  - team_name: Chicago Royals
 ---
