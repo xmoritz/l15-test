@@ -90,8 +90,8 @@ collections: # A list of collections the CMS should be able to edit
           - {label: Title, name: title, widget: string}
           - {label: Teams, name: teams, widget: list, fields: [
               {label: Team name, name: team_name, widget: string},
-              {label: Image, name: image, widget: image},
-              {label: Text, name: text, widget: text}]}
+              {label: Image, name: image, widget: image, required: false},
+              {label: Text, name: text, widget: text, required: false}]}
   - name: "trade" # Used in routes, ie.: /admin/collections/:slug/edit
     label: "Trade" # Used in the UI, ie.: "New Post"
     folder: "site/content/trade" # The path to the folder where the documents are stored
@@ -100,10 +100,11 @@ collections: # A list of collections the CMS should be able to edit
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Day", name: "day", widget: "string"}
       - {label: "Description", name: "description", widget: "text"}
-      - {label: "Select Test", name: "select", widget: "select", options: [{ label: "Option 1", value: "op1" }, { label: "Option 2", value: "op2" }, { label: "Option 3", value: "op3" }]}
+      - {label: "Select Test", name: "select", widget: "select", options: [{ label: "Option 1", value: "op1" }, { label: "Option 2", value: "op2" }, { label: "Option 3", value: "op3" }], required: false}
       - label: "Team A"
         name: "team_a"
         widget: "relation"
         collection: "general"
-        search_fields: ["team_infos.teams.team_name"]
-        value_field: "team_infos.teams.team_name"
+        file: "team_infos"
+        search_fields: ["teams.*.team_name"]
+        value_field: "teams.*.team_name"
