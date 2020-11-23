@@ -143,9 +143,9 @@ collections: # A list of collections the CMS should be able to edit
           value_field: "teams.*.team_name"
           display_fields: ["teams.*.team_city", "teams.*.team_name"]
         - label: "Sending Players"
-            name: "players"
-            widget: "string"
-            default: "Don Mason"
+          name: "players"
+          widget: "string"
+          default: "Don Mason"
         - label: "Sending Cash"
           name: "cash"
           widget: "number"
