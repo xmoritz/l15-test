@@ -86,6 +86,9 @@ collections: # A list of collections the CMS should be able to edit
       - file: "site/content/teams/_index.md"
         label: "Team Infos"
         name: "team_infos"
+        delete: false # Prevent users from deleting documents in this collection
+        editor:
+          preview: false
         fields:
           - {label: Title, name: title, widget: string}
           - {label: Teams, name: teams, widget: list, fields: [
@@ -99,23 +102,55 @@ collections: # A list of collections the CMS should be able to edit
     folder: "site/content/trade" # The path to the folder where the documents are stored
     create: true # Allow users to create new documents in this collection
     fields: # The fields each document in this collection have
-      - {label: "Title", name: "title", widget: "string"}
+      - {label: "ID", name: "id", widget: "string", hint: "Should be unique, use season_day_team1_team2_no format, e.g.: '2001_03_vegas_edmonton_1'."}
       - {label: "Day", name: "day", widget: "string"}
-      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Season", name: "season", widget: "string"}
       - {label: "Select Test", name: "select", widget: "select", options: [{ label: "Option 1", value: "op1" }, { label: "Option 2", value: "op2" }, { label: "Option 3", value: "op3" }], required: false}
       - label: "Team A"
-        name: "team_a"
-        widget: "relation"
-        collection: "general"
-        file: "team_infos"
-        search_fields: ["teams.*.team_city", "teams.*.team_name"]
-        value_field: "teams.*.team_name"
-        display_fields: ["teams.*.team_city", "teams.*.team_name"]
+        name: team_a
+        widget: object
+        fields:
+          - label: "Team A"
+            name: "team"
+            widget: "relation"
+            collection: "general"
+            file: "team_infos"
+            search_fields: ["teams.*.team_city", "teams.*.team_name"]
+            value_field: "teams.*.team_name"
+            display_fields: ["teams.*.team_city", "teams.*.team_name"]
+          - label: "Sending Players"
+            name: "players"
+            widget: "string"
+            default: "Don Mason"
+          - label: "Sending Cash"
+            name: "cash"
+            widget: "number"
+            default: 2
+            value_type: "int"
+            min: 1
+            max: 100
+            step: 2
       - label: "Team B"
-        name: "team_b"
-        widget: "relation"
-        collection: "general"
-        file: "team_infos"
-        search_fields: ["teams.*.team_city", "teams.*.team_name"]
-        value_field: "teams.*.team_name"
-        display_fields: ["teams.*.team_city", "teams.*.team_name"]
+        name: team_b
+        widget: object
+        fields:
+        - label: "Team B"
+          name: "team"
+          widget: "relation"
+          collection: "general"
+          file: "team_infos"
+          search_fields: ["teams.*.team_city", "teams.*.team_name"]
+          value_field: "teams.*.team_name"
+          display_fields: ["teams.*.team_city", "teams.*.team_name"]
+        - label: "Sending Players"
+            name: "players"
+            widget: "string"
+            default: "Don Mason"
+        - label: "Sending Cash"
+          name: "cash"
+          widget: "number"
+          value_type: "int"
+          min: 1
+          max: 100
+          step: 10
+      - {label: "Additional Info", name: "info", widget: "text"}
