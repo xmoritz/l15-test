@@ -80,8 +80,8 @@ collections: # A list of collections the CMS should be able to edit
               - {label: Heading, name: heading, widget: string}
               - {label: Text, name: text, widget: text}
               - {label: Image, name: imageUrl, widget: image}
-  - name: "general"
-    label: "General"
+  - name: "teams"
+    label: "Teams"
     files:
       - file: "site/content/teams/_index.md"
         label: "Team Infos"
@@ -90,12 +90,12 @@ collections: # A list of collections the CMS should be able to edit
         editor:
           preview: false
         fields:
-          - {label: Title, name: title, widget: string}
           - {label: Teams, name: teams, widget: list, fields: [
               {label: Team city, name: team_city, widget: string},
               {label: Team name, name: team_name, widget: string},
+              {label: Team ID, name: team_id, widget: string, hint: "Los Angeles Rebels should be something like 'lar'."},
               {label: Image, name: image, widget: image, required: false},
-              {label: "Conference/Division", name: "division", widget: "select", options: [{ label: "North West", value: "northwest" }, { label: "North East", value: "northeast" }, { label: "South West", value: "southwest" }, { label: "South East", value: "southeast" }], required: false},
+              {label: "Conference/Division", name: "division", widget: "select", options: [{ label: { label: "North East", value: "northeast" }, "North West", value: "northwest" }, { label: "South East", value: "southeast" }, { label: "South West", value: "southwest" }], required: false},
               {label: Text, name: text, widget: text, required: false}]}
   - name: "trades" # Used in routes, ie.: /admin/collections/:slug/edit
     label: "Trades" # Used in the UI, ie.: "New Post"
@@ -103,9 +103,22 @@ collections: # A list of collections the CMS should be able to edit
     create: true # Allow users to create new documents in this collection
     fields: # The fields each document in this collection have
       - {label: "ID", name: "id", widget: "string", hint: "Should be unique, use season_day_team1_team2_no format, e.g.: '2001_03_vegas_edmonton_1'."}
-      - {label: "Day", name: "day", widget: "string"}
-      - {label: "Season", name: "season", widget: "string"}
-      - {label: "Select Test", name: "select", widget: "select", options: [{ label: "Option 1", value: "op1" }, { label: "Option 2", value: "op2" }, { label: "Option 3", value: "op3" }], required: false}
+      - label: "Day"
+        name: "day"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 45
+        step: 1
+        hint: "A Number from 0 to 45"
+      - label: "Season"
+        name: "season"
+        widget: "number"
+        value_type: "int"
+        min: 2000
+        max: 3000
+        step: 10
+        hint: "E.g. '2008'"
       - label: "Team A"
         name: team_a
         widget: object
@@ -113,7 +126,7 @@ collections: # A list of collections the CMS should be able to edit
           - label: "Team A"
             name: "team"
             widget: "relation"
-            collection: "general"
+            collection: "teams"
             file: "team_infos"
             search_fields: ["teams.*.team_city", "teams.*.team_name"]
             value_field: "teams.*.team_name"
@@ -121,15 +134,14 @@ collections: # A list of collections the CMS should be able to edit
           - label: "Sending Players"
             name: "players"
             widget: "string"
-            default: "Don Mason"
+            hint: "Separate by comma, e.g. 'John Doe, Jim Smith'"
           - label: "Sending Cash"
             name: "cash"
             widget: "number"
             default: 2
             value_type: "int"
             min: 1
-            max: 100
-            step: 2
+            hint: "E.g. '1000000'"
       - label: "Team B"
         name: team_b
         widget: object
@@ -137,7 +149,7 @@ collections: # A list of collections the CMS should be able to edit
         - label: "Team B"
           name: "team"
           widget: "relation"
-          collection: "general"
+          collection: "teams"
           file: "team_infos"
           search_fields: ["teams.*.team_city", "teams.*.team_name"]
           value_field: "teams.*.team_name"
@@ -151,6 +163,4 @@ collections: # A list of collections the CMS should be able to edit
           widget: "number"
           value_type: "int"
           min: 1
-          max: 100
-          step: 10
       - {label: "Additional Info", name: "info", widget: "text"}
